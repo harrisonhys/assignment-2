@@ -27,7 +27,7 @@ const (
 	host     = "localhost"
 	port     = 5432
 	user     = "postgres"
-	password = "password"
+	password = "since2020"
 	dbname   = "orders_by"
 )
 
@@ -48,14 +48,14 @@ func close() {
 	defer db.Close()
 }
 
-func createData(c *gin.Context) {
+func CreateData(c *gin.Context) {
 
 	conn()
 
 	customerName := c.PostForm("customerName")
 	orderedAt := c.PostForm("orderedAt")
 
-	fmt.Println(jsonData)
+	fmt.Println("Customer Name : ", customerName, "Ordered At : ", orderedAt)
 
 	close()
 
@@ -106,23 +106,23 @@ func ShowData(c *gin.Context) {
 	conn()
 
 	var results = []Orderan{}
-	var detail = []OrderDetail{}
+	// var detail  = []OrderDetail{}
 
 	sqlStatement := `SELECT * from orders WHERE order_id= $1`
-	sqlStatementDetail := `SELECT * from items WHERE order_id= $1`
+	// sqlStatementDetail := `SELECT * from items WHERE order_id= $1`
 
 	ID := c.Param("id")
 
 	rows, err := db.Query(sqlStatement, ID)
-	rowsDetail, errDetail := db.Query(sqlStatementDetail, ID)
+	// rowsDetail, errDetail := db.Query(sqlStatementDetail, ID)
 
 	if err != nil {
 		panic(err)
 	}
 
-	if errDetail != nil {
-		panic(errDetail)
-	}
+	// if errDetail != nil {
+	// 	panic(errDetail)
+	// }
 
 	defer rows.Close()
 
@@ -166,11 +166,13 @@ func updateData() {
 	fmt.Printf("Update Data Amount : ", count)
 }
 
-func deleteData() {
+func DeleteData(c *gin.Context) {
 
-	sqlStatement := `DELETE from Orderans WHERE id = $1;`
+	ID := c.Param("id")
 
-	res, err := db.Exec(sqlStatement, 1)
+	sqlStatement := `DELETE from orders WHERE iorder_d = $1;`
+
+	res, err := db.Exec(sqlStatement, ID)
 
 	if err != nil {
 		panic(err)
