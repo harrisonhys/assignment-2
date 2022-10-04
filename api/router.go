@@ -12,9 +12,9 @@ func SetupRouter() *gin.Engine {
 
 	router.GET("/api/data", general.GetData)
 	router.GET("/api/data/:id", general.ShowData)
-	// router.POST("/api/data", general.createData)
+	router.POST("/api/data", general.CreateData)
 	// router.PUT("/api/data/:id", general.UpdateData)
-	// router.DELETE("/api/data", general.deleteData)
+	router.DELETE("/api/data/:id", general.DeleteData)
 
 	return router
 }
